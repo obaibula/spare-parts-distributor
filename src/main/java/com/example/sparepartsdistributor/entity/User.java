@@ -47,6 +47,21 @@ public class User {
     @PrePersist
     protected void onCreate(){
         setCreatedAt(LocalDate.now());
+        if(balance == null){
+            balance = BigDecimal.ZERO;
+        }
+        if(discount == null){
+            discount = 0;
+        }
+        if(paymentDeferment == null){
+            paymentDeferment = 0;
+        }
+        if(creditLimit == null){
+            creditLimit = BigDecimal.ZERO;
+        }
+        if(shipmentStatus == null){
+            shipmentStatus = ShipmentStatus.ALLOWED;
+        }
     }
 
     @Builder

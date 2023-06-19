@@ -1,6 +1,8 @@
 package com.example.sparepartsdistributor.controller;
 
+import com.example.sparepartsdistributor.entity.Order;
 import com.example.sparepartsdistributor.entity.User;
+import com.example.sparepartsdistributor.service.OrderService;
 import com.example.sparepartsdistributor.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,24 +17,24 @@ import java.net.URI;
 import static org.springframework.http.ResponseEntity.created;
 
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1/orders")
 @RequiredArgsConstructor
-public class UserRestController {
-    private final UserService userService;
+public class OrderRestController {
+    private final OrderService orderService;
 
     @PostMapping
-    private ResponseEntity<User> createUser(@RequestBody User user){
-        User addedUser = userService.save(user);
+    private ResponseEntity<Order> createUser(@RequestBody Order order){
+        Order addedOrder = orderService.save(order);
 
-        return created(getLocation(addedUser))
-                .body(addedUser);
+        return created(getLocation(addedOrder))
+                .body(addedOrder);
     }
 
-    private URI getLocation(User user) {
+    private URI getLocation(Order order) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(user.getId())
+                .buildAndExpand(order.getId())
                 .toUri();
     }
 }

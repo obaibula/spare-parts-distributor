@@ -5,11 +5,14 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-@Setter @Getter
+@Setter
+@Getter
 @EqualsAndHashCode(of = "email") // email is a business key
 @ToString
 public class User {
@@ -33,36 +36,21 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private BigDecimal balance;
+    private BigDecimal balance = BigDecimal.ZERO;
 
-    private Integer discount;
+    private Integer discount = 0;
 
-    private Integer paymentDeferment;
+    private Integer paymentDeferment = 0;
 
-    private BigDecimal creditLimit;
+    private BigDecimal creditLimit = BigDecimal.ZERO;
 
     @Enumerated(value = EnumType.STRING)
-    private ShipmentStatus shipmentStatus;
+    private ShipmentStatus shipmentStatus = ShipmentStatus.ALLOWED;
 
-    @PrePersist
-    protected void onCreate(){
-        setCreatedAt(LocalDate.now());
-        if(balance == null){
-            balance = BigDecimal.ZERO;
-        }
-        if(discount == null){
-            discount = 0;
-        }
-        if(paymentDeferment == null){
-            paymentDeferment = 0;
-        }
-        if(creditLimit == null){
-            creditLimit = BigDecimal.ZERO;
-        }
-        if(shipmentStatus == null){
-            shipmentStatus = ShipmentStatus.ALLOWED;
-        }
-    }
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
     @Builder
     public User(Long id,
@@ -77,6 +65,7 @@ public class User {
                 Integer paymentDeferment,
                 BigDecimal creditLimit,
                 ShipmentStatus shipmentStatus) {
+
         this.id = id;
         this.createdAt = createdAt;
         this.email = email;
@@ -89,5 +78,20 @@ public class User {
         this.paymentDeferment = paymentDeferment;
         this.creditLimit = creditLimit;
         this.shipmentStatus = shipmentStatus;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
+        order.setUser(this);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        order.setUser(null);
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        setCreatedAt(LocalDate.now());
     }
 }

@@ -10,7 +10,7 @@ CREATE TABLE users (
     discount INTEGER DEFAULT 0,
     payment_deferment INTEGER DEFAULT 0,
     credit_limit DECIMAL DEFAULT 0,
-    shipment_status VARCHAR(30) DEFAULT 'SHIPMENT ALLOWED',
+    shipment_status VARCHAR(30) DEFAULT 'ALLOWED',
 
     CHECK(discount >= 0 AND discount <= 99),
     CHECK(payment_deferment >= 0),

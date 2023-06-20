@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "parts")
+@Table(name = "parts", uniqueConstraints = @UniqueConstraint(columnNames = {"brand", "partNumber"}))
 @Getter @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"partNumber", "brand"}) // part-numbers can be similar

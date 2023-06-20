@@ -1,7 +1,8 @@
 package com.example.sparepartsdistributor.service;
 
-import com.example.sparepartsdistributor.entity.Order;
+import com.example.sparepartsdistributor.dto.OrderCreateRequestDto;
+import com.example.sparepartsdistributor.dto.OrderDto;
 
 public interface OrderService {
-    Order save(Order order);
+    OrderDto save(OrderCreateRequestDto orderRequest);
 }

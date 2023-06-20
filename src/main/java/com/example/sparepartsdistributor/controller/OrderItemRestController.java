@@ -1,8 +1,7 @@
 package com.example.sparepartsdistributor.controller;
 
-import com.example.sparepartsdistributor.dto.OrderCreateRequestDto;
-import com.example.sparepartsdistributor.dto.OrderDto;
-import com.example.sparepartsdistributor.service.OrderService;
+import com.example.sparepartsdistributor.entity.OrderItem;
+import com.example.sparepartsdistributor.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,27 +12,26 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-import static org.springframework.http.ResponseEntity.created;
-
 @RestController
-@RequestMapping("api/v1/orders")
+@RequestMapping("/api/v1/orderItems")
 @RequiredArgsConstructor
-public class OrderRestController {
-    private final OrderService orderService;
+public class OrderItemRestController {
+    private final OrderItemService orderItemService;
 
     @PostMapping
-    private ResponseEntity<OrderDto> createUser(@RequestBody OrderCreateRequestDto orderRequest){
-        var savedOrder = orderService.save(orderRequest);
+    private ResponseEntity<OrderItem> createOrderItem(
+            @RequestBody OrderItem orderItem){
+        var savedOrderItem = orderItemService.save(orderItem);
 
-        return created(getLocation(savedOrder))
-                .body(savedOrder);
+        return ResponseEntity.created(getLocation(savedOrderItem))
+                .body(savedOrderItem);
     }
 
-    private URI getLocation(OrderDto order) {
+    private URI getLocation(OrderItem savedOrderItem) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(order.id())
+                .buildAndExpand(savedOrderItem.getId())
                 .toUri();
     }
 }

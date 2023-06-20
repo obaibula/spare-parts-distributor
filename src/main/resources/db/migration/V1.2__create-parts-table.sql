@@ -1,6 +1,6 @@
-CREATE TABLE products(
+CREATE TABLE parts(
     id BIGSERIAL PRIMARY KEY,
-    part_number BIGINT NOT NULL,
+    part_number VARCHAR(60) NOT NULL,
     name VARCHAR(60) NOT NULL,
     brand VARCHAR(60) NOT NULL,
     category VARCHAR(60) NOT NULL,

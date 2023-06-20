@@ -24,10 +24,10 @@ public class OrderRestController {
 
     @PostMapping
     private ResponseEntity<Order> createUser(@RequestBody Order order){
-        Order addedOrder = orderService.save(order);
+        Order savedOrder = orderService.save(order);
 
-        return created(getLocation(addedOrder))
-                .body(addedOrder);
+        return created(getLocation(savedOrder))
+                .body(savedOrder);
     }
 
     private URI getLocation(Order order) {

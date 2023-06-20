@@ -1,7 +1,7 @@
 package com.example.sparepartsdistributor.controller;
 
-import com.example.sparepartsdistributor.entity.User;
-import com.example.sparepartsdistributor.service.UserService;
+import com.example.sparepartsdistributor.entity.Part;
+import com.example.sparepartsdistributor.service.PartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,27 +12,28 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-import static org.springframework.http.ResponseEntity.created;
-
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("/api/v1/parts")
 @RequiredArgsConstructor
-public class UserRestController {
-    private final UserService userService;
+public class PartRestController {
+
+    private final PartService partService;
 
     @PostMapping
-    private ResponseEntity<User> createUser(@RequestBody User user){
-        User savedUser = userService.save(user);
+    private ResponseEntity<Part> createPart(@RequestBody Part part){
+        var savedPart = partService.save(part);
 
-        return created(getLocation(savedUser))
-                .body(savedUser);
+        return ResponseEntity
+                .created(getLocation(savedPart))
+                .body(savedPart);
     }
 
-    private URI getLocation(User user) {
+    private URI getLocation(Part part) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(user.getId())
+                .buildAndExpand(part.getId())
                 .toUri();
     }
+
 }

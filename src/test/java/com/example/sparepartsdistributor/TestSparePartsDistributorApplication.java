@@ -12,7 +12,7 @@ public class TestSparePartsDistributorApplication {
 	@Bean
 	@ServiceConnection
 	PostgreSQLContainer<?> postgresContainer() {
-		return new PostgreSQLContainer<>("postgres:latest");
+		return new PostgreSQLContainer<>("postgres:14.8");
 	}
 
 	public static void main(String[] args) {

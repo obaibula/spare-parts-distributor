@@ -52,7 +52,37 @@ public class Part {
     private List<OrderItem> orderItems = new ArrayList<>();
 
     /**
+     * Constructs a new Part object with the specified attributes.
+     *
+     * <p>This constructor is specifically designed for use with the Builder pattern.
+     * It sets default values, when needed, for fields not provided by the builder.
+     */
+    @Builder
+    public Part(Long id,
+                String partNumber,
+                String name,
+                String brand,
+                String category,
+                BigDecimal price,
+                Integer stockQuantity,
+                Integer availableQuantity,
+                Integer deliveryTime,
+                String image) {
+        this.id = id;
+        this.partNumber = partNumber;
+        this.name = name;
+        this.brand = brand;
+        this.category = category;
+        this.price = price;
+        this.stockQuantity = (stockQuantity != null) ? stockQuantity : 0;
+        this.availableQuantity = (availableQuantity != null) ? availableQuantity : 0;
+        this.deliveryTime = (deliveryTime != null) ? deliveryTime : 0;
+        this.image = image;
+    }
+
+    /**
      * Adds an order item to the list of order items for this part.
+     *
      * @param item the order item to be added
      */
     public void addOrderItem(OrderItem item) {
@@ -62,11 +92,11 @@ public class Part {
 
     /**
      * Removes an order item from the list of order items for this part.
+     *
      * @param item the order item to be removed
      */
     public void removeOrderItem(OrderItem item) {
         orderItems.remove(item);
         item.setPart(null);
     }
-
 }

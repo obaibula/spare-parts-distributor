@@ -31,7 +31,7 @@ public class Order {
     @Setter(AccessLevel.PRIVATE)
     private LocalDateTime updatedAt;
 
-    private BigDecimal total = BigDecimal.ZERO;
+    private BigDecimal totalPrice = BigDecimal.ZERO;
 
     @Enumerated(value = EnumType.STRING)
     private OrderStatus status = OrderStatus.NEW;

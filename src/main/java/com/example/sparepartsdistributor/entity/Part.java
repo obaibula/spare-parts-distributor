@@ -51,6 +51,11 @@ public class Part {
             orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToMany(mappedBy = "part",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
+
     /**
      * Constructs a new Part object with the specified attributes.
      *
@@ -97,6 +102,26 @@ public class Part {
      */
     public void removeOrderItem(OrderItem item) {
         orderItems.remove(item);
+        item.setPart(null);
+    }
+
+    /**
+     * Adds a cart item to the list of cart items for this part.
+     *
+     * @param item the cart item to be added
+     */
+    public void addCartItem(CartItem item){
+        cartItems.add(item);
+        item.setPart(this);
+    }
+
+    /**
+     * Removes a cart item from the list of cart items for this part.
+     *
+     * @param item the cart item to be removed
+     */
+    public void removeCartItem(CartItem item){
+        cartItems.remove(item);
         item.setPart(null);
     }
 }

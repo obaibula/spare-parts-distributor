@@ -57,6 +57,11 @@ public class User {
             orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private Cart cart;
+
     /**
      * Constructs a new User object with the specified attributes.
      *
@@ -109,6 +114,14 @@ public class User {
     public void removeOrder(Order order) {
         orders.remove(order);
         order.setUser(null);
+    }
+
+    public void setCart(Cart cart) {
+        if (cart == null) {
+            if (this.cart != null) this.cart.setUser(null);
+        }
+        else cart.setUser(this);
+        this.cart = cart;
     }
 
     /**

@@ -6,10 +6,10 @@ CREATE TABLE users (
     first_name VARCHAR(30),
     last_name VARCHAR(30),
     password VARCHAR(50) NOT NULL,
-    balance DECIMAL DEFAULT 0,
+    balance DECIMAL(10, 2) DEFAULT 0,
     discount INTEGER DEFAULT 0,
     payment_deferment INTEGER DEFAULT 0,
-    credit_limit DECIMAL DEFAULT 0,
+    credit_limit DECIMAL(10, 2) DEFAULT 0,
     shipment_status VARCHAR(30) DEFAULT 'ALLOWED',
 
     CHECK(discount >= 0 AND discount <= 99),

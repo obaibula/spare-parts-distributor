@@ -29,7 +29,7 @@ public record OrderDto(Long id,
                 order.getId(),
                 order.getCreatedAt(),
                 order.getUpdatedAt(),
-                order.getTotal(),
+                order.getTotalPrice(),
                 order.getStatus(),
                 order.getShippingAddress(),
                 order.getUser().getId());

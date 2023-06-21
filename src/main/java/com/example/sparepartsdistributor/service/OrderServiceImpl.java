@@ -11,6 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Implementation of the {@link OrderService} interface that provides functionality for managing orders.
+ * This class uses the {@link OrderRepository} to interact with the underlying data store
+ */
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {

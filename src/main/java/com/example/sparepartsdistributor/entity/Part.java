@@ -7,9 +7,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a spare part.
+ */
 @Entity
 @Table(name = "parts", uniqueConstraints = @UniqueConstraint(columnNames = {"brand", "partNumber"}))
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"partNumber", "brand"}) // part-numbers can be similar
 @ToString
@@ -47,12 +51,20 @@ public class Part {
             orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    public void addOrderItem(OrderItem item){
+    /**
+     * Adds an order item to the list of order items for this part.
+     * @param item the order item to be added
+     */
+    public void addOrderItem(OrderItem item) {
         orderItems.add(item);
         item.setPart(this);
     }
 
-    public void removeOrderItem(OrderItem item){
+    /**
+     * Removes an order item from the list of order items for this part.
+     * @param item the order item to be removed
+     */
+    public void removeOrderItem(OrderItem item) {
         orderItems.remove(item);
         item.setPart(null);
     }

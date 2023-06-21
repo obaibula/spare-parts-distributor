@@ -6,6 +6,10 @@ import com.example.sparepartsdistributor.entity.OrderStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+
+/**
+ * Represents a data transfer object (DTO) for an order.
+ */
 public record OrderDto(Long id,
                        LocalDateTime createdAt,
                        LocalDateTime updatedAt,
@@ -14,7 +18,12 @@ public record OrderDto(Long id,
                        String shippingAddress,
                        Long userId) {
 
-    // order to dto mapper
+    /**
+     * Maps an Order entity to an OrderDto.
+     *
+     * @param order the Order entity to be mapped
+     * @return the corresponding OrderDto
+     */
     public static OrderDto orderToDto(Order order) {
         return new OrderDto(
                 order.getId(),

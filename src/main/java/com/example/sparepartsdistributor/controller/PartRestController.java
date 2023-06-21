@@ -12,6 +12,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+/**
+ * REST controller class that handles requests related to spare parts.
+ */
 @RestController
 @RequestMapping("/api/v1/parts")
 @RequiredArgsConstructor
@@ -19,6 +22,13 @@ public class PartRestController {
 
     private final PartService partService;
 
+    /**
+     * Creates a new part based on the provided request body.
+     * The created part is returned in the response with the appropriate HTTP status and location header.
+     *
+     * @param part the part to be created, as specified in the request body
+     * @return the ResponseEntity containing the created part and location URI
+     */
     @PostMapping
     private ResponseEntity<Part> createPart(@RequestBody Part part){
         var savedPart = partService.save(part);
@@ -28,6 +38,13 @@ public class PartRestController {
                 .body(savedPart);
     }
 
+    /**
+     * Generates the location URI for the specified part.
+     * The location URI is based on the current request URI and the ID of the part.
+     *
+     * @param part the part for which the location URI is generated
+     * @return the generated location URI for the part
+     */
     private URI getLocation(Part part) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()

@@ -8,6 +8,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an order entity.
+ */
+
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor
@@ -45,16 +49,29 @@ public class Order {
             orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    public void addOrderItem(OrderItem item){
+    /**
+     * Adds an orderItem to the order.
+     *
+     * @param item the orderItem to be added
+     */
+    public void addOrderItem(OrderItem item) {
         orderItems.add(item);
         item.setOrder(this);
     }
 
-    public void removeOrderItem(OrderItem item){
+    /**
+     * Removes an orderItem from the order.
+     *
+     * @param item the orderItem to be removed
+     */
+    public void removeOrderItem(OrderItem item) {
         orderItems.remove(item);
         item.setOrder(null);
     }
 
+    /**
+     * Sets the createdAt and updatedAt properties to the current date and time before persisting the entity.
+     */
     @PrePersist
     protected void onCreate() {
         LocalDateTime now = LocalDateTime.now();
@@ -62,6 +79,9 @@ public class Order {
         this.setUpdatedAt(now);
     }
 
+    /**
+     * Sets the updatedAt property to the current date and time before updating the entity.
+     */
     @PreUpdate
     protected void onUpdate() {
         this.setUpdatedAt(LocalDateTime.now());

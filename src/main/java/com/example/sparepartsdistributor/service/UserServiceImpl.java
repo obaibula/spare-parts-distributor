@@ -1,7 +1,6 @@
 package com.example.sparepartsdistributor.service;
 
 import com.example.sparepartsdistributor.entity.User;
-import com.example.sparepartsdistributor.repository.OrderRepository;
 import com.example.sparepartsdistributor.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

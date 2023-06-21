@@ -1,7 +1,7 @@
 package com.example.sparepartsdistributor.controller;
 
-import com.example.sparepartsdistributor.dto.OrderCreateRequestDto;
 import com.example.sparepartsdistributor.dto.OrderDto;
+import com.example.sparepartsdistributor.entity.Order;
 import com.example.sparepartsdistributor.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +28,12 @@ public class OrderRestController {
      * Creates a new order based on the provided request body.
      * The created order is returned in the response with the appropriate HTTP status and location header.
      *
-     * @param orderRequest the order creation request DTO, as specified in the request body
+     * @param order the order creation request DTO, as specified in the request body
      * @return the ResponseEntity containing the created order DTO and location URI
      */
     @PostMapping
-    private ResponseEntity<OrderDto> createUser(@RequestBody OrderCreateRequestDto orderRequest){
-        var savedOrder = orderService.save(orderRequest);
+    private ResponseEntity<OrderDto> createUser(@RequestBody Order order){
+        var savedOrder = orderService.save(order);
 
         return created(getLocation(savedOrder))
                 .body(savedOrder);

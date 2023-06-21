@@ -1,6 +1,5 @@
 package com.example.sparepartsdistributor.service;
 
-import com.example.sparepartsdistributor.dto.OrderCreateRequestDto;
 import com.example.sparepartsdistributor.entity.Order;
 import com.example.sparepartsdistributor.entity.User;
 import com.example.sparepartsdistributor.exception.UserNotFoundException;
@@ -39,23 +38,26 @@ class OrderServiceTest {
         long userId = 1L;
         String shippingAddress = "Kyiv";
 
-        var orderRequest = new OrderCreateRequestDto(shippingAddress, userId);
+        var order = new Order();
+        order.setShippingAddress(shippingAddress);
 
         var user = User.builder()
                 .id(userId)
                 .build();
+        order.setUser(user);
 
         var savedOrder = new Order();
         savedOrder.setId(1L);
         savedOrder.setShippingAddress(shippingAddress);
         savedOrder.setUser(user);
 
-        given(userRepository.findById(orderRequest.userId()))
+        given(userRepository.findById(order.getUser()
+                .getId()))
                 .willReturn(Optional.of(user));
         given(orderRepository.save(any(Order.class)))
                 .willReturn(savedOrder);
         // when
-        var result = underTest.save(orderRequest);
+        var result = underTest.save(order);
         // then
         assertThat(result.id()).isEqualTo(savedOrder.getId());
         assertThat(result.shippingAddress()).isEqualTo(savedOrder.getShippingAddress());
@@ -74,11 +76,17 @@ class OrderServiceTest {
     @Test
     void willThrowWhenAddOrderUserIsNotFound(){
         Long invalidUserId = 999L;
-        var orderRequest = new OrderCreateRequestDto("Kyiv", invalidUserId);
+        var order = new Order();
+        order.setUser(
+                User.builder()
+                .id(invalidUserId)
+                .build()
+        );
+
         given(userRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
 
-        assertThatThrownBy(() -> underTest.save(orderRequest))
+        assertThatThrownBy(() -> underTest.save(order))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessage("User not found with id - " + invalidUserId);
     }

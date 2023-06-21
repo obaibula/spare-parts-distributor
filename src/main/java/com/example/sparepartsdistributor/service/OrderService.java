@@ -1,7 +1,7 @@
 package com.example.sparepartsdistributor.service;
 
-import com.example.sparepartsdistributor.dto.OrderCreateRequestDto;
 import com.example.sparepartsdistributor.dto.OrderDto;
+import com.example.sparepartsdistributor.entity.Order;
 
 /**
  * Interface defining the contract for managing orders.
@@ -11,5 +11,5 @@ import com.example.sparepartsdistributor.dto.OrderDto;
  * @see <a href="https://docs.spring.io/spring-framework/docs/3.0.0.M3/reference/html/ch08s06.html">Spring Documentation - 8.6 Proxying mechanisms</a>
  */
 public interface OrderService {
-    OrderDto save(OrderCreateRequestDto orderRequest);
+    OrderDto save(Order orderRequest);
 }

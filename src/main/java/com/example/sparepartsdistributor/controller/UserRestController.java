@@ -1,6 +1,8 @@
 package com.example.sparepartsdistributor.controller;
 
+import com.example.sparepartsdistributor.dto.UserDto;
 import com.example.sparepartsdistributor.entity.User;
+import com.example.sparepartsdistributor.service.CartService;
 import com.example.sparepartsdistributor.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +33,8 @@ public class UserRestController {
      * @return the ResponseEntity containing the created user and location URI
      */
     @PostMapping
-    private ResponseEntity<User> createUser(@RequestBody User user){
-        User savedUser = userService.save(user);
-
+    private ResponseEntity<UserDto> createUser(@RequestBody User user){
+        var savedUser = userService.save(user);
         return created(getLocation(savedUser))
                 .body(savedUser);
     }
@@ -45,11 +46,11 @@ public class UserRestController {
      * @param user the user for which the location URI is generated
      * @return the generated location URI for the user
      */
-    private URI getLocation(User user) {
+    private URI getLocation(UserDto user) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(user.getId())
+                .buildAndExpand(user.id())
                 .toUri();
     }
 }

@@ -61,7 +61,7 @@ public class Cart {
      */
     public void removeCartItem(CartItem cartItem){
         cartItems.remove(cartItem);
-        cartItem.setPart(null);
+        cartItem.setCart(null);
     }
 
 

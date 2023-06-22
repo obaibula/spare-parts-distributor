@@ -15,12 +15,13 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
     @Mock private UserRepository userRepository;
+    @Mock private CartService cartService;
     private UserService underTest;
     @BeforeEach
     void setUp() {
-        underTest = new UserServiceImpl(userRepository);
+        underTest = new UserServiceImpl(userRepository, cartService);
     }
-
+    // todo: refactor considering last changes
     @Test
     void canAddUser(){
         // given

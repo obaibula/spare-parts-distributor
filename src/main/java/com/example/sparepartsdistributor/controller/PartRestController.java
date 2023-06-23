@@ -119,7 +119,13 @@ public class PartRestController {
         PartDto partDto = partService.findById(partId);
         return EntityModel.of(partDto,
                 getLinkToOneMethod(partId).withSelfRel(),
+                getLinkToAddCartItemMethod().withRel("add"),
                 getLinkToAllMethod(Pageable.unpaged()).withRel("parts"));
+    }
+
+    private WebMvcLinkBuilder getLinkToAddCartItemMethod() {
+        return linkTo(methodOn(CartItemRestController.class)
+                .addCartItem(null));
     }
 
     /**

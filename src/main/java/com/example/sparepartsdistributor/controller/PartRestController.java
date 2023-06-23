@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +38,7 @@ public class PartRestController {
      * @return the ResponseEntity containing the created part and location URI
      */
     @PostMapping
-    private ResponseEntity<Part> createPart(@RequestBody Part part){
+    private ResponseEntity<Part> createPart(@RequestBody Part part) {
         var savedPart = partService.save(part);
 
         return ResponseEntity
@@ -64,12 +63,13 @@ public class PartRestController {
 
     /**
      * Retrieves all parts with pagination and generates HATEOAS links.
+     *
      * @param pageable the pagination information
      * @return the Collection model of Entity model of PartDto containing parts and self links
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public CollectionModel<EntityModel<PartDto>> all(Pageable pageable){
+    public CollectionModel<EntityModel<PartDto>> all(Pageable pageable) {
         var parts = partService.findAll(createPageRequest(pageable))
                 .stream()
                 .map(part -> getPartDtoEntityModel(pageable, part))
@@ -78,27 +78,20 @@ public class PartRestController {
         return CollectionModel.of(
                 parts,
                 getLinkToAllMethod(pageable)
-                .withSelfRel());
+                        .withSelfRel());
     }
 
     /**
      * Creates an EntityModel of PartDto with HATEOAS links.
+     *
      * @param pageable the pagination information
-     * @param part the PartDto object
+     * @param part     the PartDto object
      * @return the EntityModel of PartDto with links
      */
     private EntityModel<PartDto> getPartDtoEntityModel(Pageable pageable, PartDto part) {
-        return EntityModel.of(part, getLinkToAllMethod(pageable).withRel("parts"));
-    }
-
-    /**
-     * Generates the link to the "all" method for pagination.
-     *
-     * @param pageable the pagination information
-     * @return the WebMvcLinkBuilder for the "all" method
-     */
-    private WebMvcLinkBuilder getLinkToAllMethod(Pageable pageable) {
-        return linkTo(methodOn(PartRestController.class).all(pageable));
+        return EntityModel.of(part,
+                getLinkToOneMethod(part.id()).withSelfRel(),
+                getLinkToAllMethod(pageable).withRel("parts"));
     }
 
     /**
@@ -112,6 +105,41 @@ public class PartRestController {
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
                 pageable.getSortOr(Sort.by(Sort.Direction.ASC, "id")));
+    }
+
+    /**
+     * Retrieves a single part with the specified partId and generates HATEOAS links.
+     *
+     * @param partId the ID of the part to retrieve
+     * @return the EntityModel of PartDto containing the part and related links
+     */
+    @GetMapping("/{partId}")
+    @ResponseStatus(HttpStatus.OK)
+    public EntityModel<PartDto> one(@PathVariable Long partId) {
+        PartDto partDto = partService.findById(partId);
+        return EntityModel.of(partDto,
+                getLinkToOneMethod(partId).withSelfRel(),
+                getLinkToAllMethod(Pageable.unpaged()).withRel("parts"));
+    }
+
+    /**
+     * Generates the link to the "one" method for the specified partId.
+     *
+     * @param partId the ID of the part
+     * @return the WebMvcLinkBuilder for the "one" method
+     */
+    private WebMvcLinkBuilder getLinkToOneMethod(Long partId) {
+        return linkTo(methodOn(PartRestController.class).one(partId));
+    }
+
+    /**
+     * Generates the link to the "all" method for pagination.
+     *
+     * @param pageable the pagination information
+     * @return the WebMvcLinkBuilder for the "all" method
+     */
+    private WebMvcLinkBuilder getLinkToAllMethod(Pageable pageable) {
+        return linkTo(methodOn(PartRestController.class).all(pageable));
     }
 
 }

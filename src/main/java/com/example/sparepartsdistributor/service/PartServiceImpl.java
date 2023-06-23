@@ -2,6 +2,7 @@ package com.example.sparepartsdistributor.service;
 
 import com.example.sparepartsdistributor.dto.PartDto;
 import com.example.sparepartsdistributor.entity.Part;
+import com.example.sparepartsdistributor.exception.PartNotFoundException;
 import com.example.sparepartsdistributor.repository.PartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,5 +31,13 @@ public class PartServiceImpl implements PartService {
         return partRepository.findAll(pageable)
                 .map(PartDto::partToDto)
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PartDto findById(Long partId) {
+        return partRepository.findById(partId)
+                .map(PartDto::partToDto)
+                .orElseThrow(() -> new PartNotFoundException("Part not found with id - " + partId));
     }
 }

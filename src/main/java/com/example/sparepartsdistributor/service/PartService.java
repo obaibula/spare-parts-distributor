@@ -17,4 +17,6 @@ import java.util.List;
 public interface PartService {
     Part save(Part part);
     List<PartDto> findAll(Pageable pageable);
+
+    PartDto findById(Long partId);
 }

@@ -9,5 +9,6 @@ CREATE TABLE cart_items(
     quantity INTEGER DEFAULT 1,
     cart_id BIGINT NOT NULL REFERENCES carts(user_id) ON DELETE CASCADE,
     part_id BIGINT NOT NULL REFERENCES parts(id) ON DELETE CASCADE,
-    CHECK(quantity >= 1)
+    CHECK(quantity >= 1),
+    CONSTRAINT uc_cart_part UNIQUE (cart_id, part_id)
 );

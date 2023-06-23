@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "cart_items")
+@Table(name = "cart_items", uniqueConstraints =
+    @UniqueConstraint(
+            columnNames = {"cart_id", "part_id"}))
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = {"cart", "part"})
 @ToString(exclude = {"cart", "part"})
 public class CartItem {
     @Id

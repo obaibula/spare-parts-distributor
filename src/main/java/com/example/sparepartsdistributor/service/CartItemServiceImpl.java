@@ -16,6 +16,9 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     @Transactional
     public CartItem save(CartItem cartItem) {
+        // todo: cart must not contain not unique parts. If part is present in the cart, the quantity must be updated
+        /*var partId = cartItem.getPart().getId();
+        var cartId = cartItem.getCart().getId();*/
         return cartItemRepository.save(cartItem);
     }
 

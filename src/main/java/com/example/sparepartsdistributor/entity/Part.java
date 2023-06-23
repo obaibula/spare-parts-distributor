@@ -11,7 +11,9 @@ import java.util.List;
  * Represents a spare part.
  */
 @Entity
-@Table(name = "parts", uniqueConstraints = @UniqueConstraint(columnNames = {"brand", "partNumber"}))
+@Table(name = "parts",
+        uniqueConstraints =
+        @UniqueConstraint(columnNames = {"brand", "partNumber"}))
 @Getter
 @Setter
 @NoArgsConstructor

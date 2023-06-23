@@ -1,10 +1,12 @@
 package com.example.sparepartsdistributor.service;
 
+import com.example.sparepartsdistributor.dto.OrderDto;
 import com.example.sparepartsdistributor.entity.Order;
 import com.example.sparepartsdistributor.entity.User;
 import com.example.sparepartsdistributor.exception.UserNotFoundException;
 import com.example.sparepartsdistributor.repository.OrderRepository;
 import com.example.sparepartsdistributor.repository.UserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,17 +40,11 @@ class OrderServiceTest {
         long userId = 1L;
         String shippingAddress = "Kyiv";
 
-        var order = new Order();
-        order.setShippingAddress(shippingAddress);
-
-        var user = User.builder()
-                .id(userId)
-                .build();
+        Order order = createOrder(shippingAddress);
+        var user = createUser(userId);
         order.setUser(user);
 
-        var savedOrder = new Order();
-        savedOrder.setId(1L);
-        savedOrder.setShippingAddress(shippingAddress);
+        Order savedOrder = createOrderWithId(shippingAddress);
         savedOrder.setUser(user);
 
         given(userRepository.findById(order.getUser()
@@ -61,6 +57,7 @@ class OrderServiceTest {
         // then
         assertThat(result.id()).isEqualTo(savedOrder.getId());
         assertThat(result.shippingAddress()).isEqualTo(savedOrder.getShippingAddress());
+        assertThat(result).isEqualTo(OrderDto.orderToDto(savedOrder));
 
         var orderArgumentCaptor =
                 ArgumentCaptor.forClass(Order.class);
@@ -73,15 +70,32 @@ class OrderServiceTest {
         assertThat(user).isEqualTo(capturedOrder.getUser());
     }
 
+    @NotNull
+    private static Order createOrderWithId(String shippingAddress) {
+        var savedOrder = new Order();
+        savedOrder.setId(1L);
+        savedOrder.setShippingAddress(shippingAddress);
+        return savedOrder;
+    }
+
+    private static User createUser(long userId) {
+        return User.builder()
+                .id(userId)
+                .build();
+    }
+
+    @NotNull
+    private static Order createOrder(String shippingAddress) {
+        var order = new Order();
+        order.setShippingAddress(shippingAddress);
+        return order;
+    }
+
     @Test
     void willThrowWhenAddOrderUserIsNotFound(){
-        Long invalidUserId = 999L;
+        long invalidUserId = 999L;
         var order = new Order();
-        order.setUser(
-                User.builder()
-                .id(invalidUserId)
-                .build()
-        );
+        order.setUser(createUser(invalidUserId));
 
         given(userRepository.findById(anyLong()))
                 .willReturn(Optional.empty());

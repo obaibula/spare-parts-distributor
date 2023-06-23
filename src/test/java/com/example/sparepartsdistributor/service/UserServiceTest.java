@@ -1,7 +1,10 @@
 package com.example.sparepartsdistributor.service;
 
+import com.example.sparepartsdistributor.dto.UserDto;
+import com.example.sparepartsdistributor.entity.Cart;
 import com.example.sparepartsdistributor.entity.User;
 import com.example.sparepartsdistributor.repository.UserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,38 +13,80 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
-    @Mock private UserRepository userRepository;
-    @Mock private CartService cartService;
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private CartService cartService;
     private UserService underTest;
+
     @BeforeEach
     void setUp() {
         underTest = new UserServiceImpl(userRepository, cartService);
     }
-    // todo: refactor considering last changes
+
     @Test
-    void canAddUser(){
+    void canAddUser() {
         // given
-        var user = User.builder()
-                .email("user@mail.com")
-                .password("userPass1#")
-                .build();
+        long userId = 5L;
+        String email = "user@mail.com";
+        String password = "userPass1#";
+
+        var user = createUser(email, password);
+        var savedUser = createUserWithId(userId, email, password);
+        var createdCart = getCreatedCart(userId, savedUser);
+
+        given(userRepository.save(any(User.class)))
+                .willReturn(savedUser);
+        given(cartService.createCart(any(User.class)))
+                .willReturn(createdCart);
         // when
-        underTest.save(user);
+        var result = underTest.save(user);
         // then
+        assertThat(result.id()).isEqualTo(savedUser.getId());
+        assertThat(result.email()).isEqualTo(savedUser.getEmail());
+        assertThat(result).isEqualTo(UserDto.userToDto(savedUser));
+
         var userArgumentCaptor =
                 ArgumentCaptor.forClass(User.class);
 
-        verify(userRepository)
-                .save(userArgumentCaptor.capture());
+        verify(userRepository).save(userArgumentCaptor.capture());
+        verify(cartService).createCart(userArgumentCaptor.capture());
 
         var capturedUser = userArgumentCaptor.getValue();
 
-        assertThat(capturedUser).isEqualTo(user);
+        assertThat(email).isEqualTo(capturedUser.getEmail());
+        assertThat(createdCart).isEqualTo(capturedUser.getCart());
+    }
 
+
+    private static Cart getCreatedCart(long userId, User savedUser) {
+        var createdCart = new Cart();
+        createdCart.setId(userId);
+        createdCart.setUser(savedUser);
+        return createdCart;
+    }
+
+    private static User createUserWithId(long userId, String email, String password) {
+        return User.builder()
+                .id(userId)
+                .email(email)
+                .password(password)
+                .build();
+    }
+
+    private static User createUser(String email, String password) {
+        return User.builder()
+                .email(email)
+                .password(password)
+                .build();
     }
 }
 

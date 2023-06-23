@@ -7,7 +7,7 @@ CREATE TABLE carts(
 CREATE TABLE cart_items(
     id BIGSERIAL PRIMARY KEY,
     quantity INTEGER DEFAULT 1,
-    cart_id BIGINT NOT NULL REFERENCES cart(user_id) ON DELETE CASCADE,
+    cart_id BIGINT NOT NULL REFERENCES carts(user_id) ON DELETE CASCADE,
     part_id BIGINT NOT NULL REFERENCES parts(id) ON DELETE CASCADE,
     CHECK(quantity >= 1)
 );

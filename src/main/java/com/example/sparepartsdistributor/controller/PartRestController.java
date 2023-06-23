@@ -62,6 +62,11 @@ public class PartRestController {
                 .toUri();
     }
 
+    /**
+     * Retrieves all parts with pagination and generates HATEOAS links.
+     * @param pageable the pagination information
+     * @return the Collection model of Entity model of PartDto containing parts and self links
+     */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CollectionModel<EntityModel<PartDto>> all(Pageable pageable){
@@ -76,14 +81,32 @@ public class PartRestController {
                 .withSelfRel());
     }
 
+    /**
+     * Creates an EntityModel of PartDto with HATEOAS links.
+     * @param pageable the pagination information
+     * @param part the PartDto object
+     * @return the EntityModel of PartDto with links
+     */
     private EntityModel<PartDto> getPartDtoEntityModel(Pageable pageable, PartDto part) {
         return EntityModel.of(part, getLinkToAllMethod(pageable).withRel("parts"));
     }
 
+    /**
+     * Generates the link to the "all" method for pagination.
+     *
+     * @param pageable the pagination information
+     * @return the WebMvcLinkBuilder for the "all" method
+     */
     private WebMvcLinkBuilder getLinkToAllMethod(Pageable pageable) {
         return linkTo(methodOn(PartRestController.class).all(pageable));
     }
 
+    /**
+     * Creates a PageRequest object for pagination.
+     *
+     * @param pageable the original Pageable object
+     * @return the created PageRequest object
+     */
     private PageRequest createPageRequest(Pageable pageable) {
         return PageRequest.of(
                 pageable.getPageNumber(),

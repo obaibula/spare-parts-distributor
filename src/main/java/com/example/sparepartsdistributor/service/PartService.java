@@ -1,6 +1,11 @@
 package com.example.sparepartsdistributor.service;
 
+import com.example.sparepartsdistributor.dto.PartDto;
 import com.example.sparepartsdistributor.entity.Part;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Interface defining the contract for managing spare parts.
@@ -11,4 +16,5 @@ import com.example.sparepartsdistributor.entity.Part;
  */
 public interface PartService {
     Part save(Part part);
+    List<PartDto> findAll(Pageable pageable);
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * Represents a cart.
  */
 @Entity
-@Table(name = "cart")
+@Table(name = "carts")
 @Getter
 @Setter
 @NoArgsConstructor

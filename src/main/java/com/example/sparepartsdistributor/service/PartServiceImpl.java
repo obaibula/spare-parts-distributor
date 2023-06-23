@@ -1,10 +1,14 @@
 package com.example.sparepartsdistributor.service;
 
+import com.example.sparepartsdistributor.dto.PartDto;
 import com.example.sparepartsdistributor.entity.Part;
 import com.example.sparepartsdistributor.repository.PartRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Implementation of the {@link PartService} interface that provides functionality for managing spare parts.
@@ -18,5 +22,13 @@ public class PartServiceImpl implements PartService {
     @Transactional
     public Part save(Part part) {
         return partRepository.save(part);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PartDto> findAll(Pageable pageable) {
+        return partRepository.findAll(pageable)
+                .map(PartDto::partToDto)
+                .toList();
     }
 }

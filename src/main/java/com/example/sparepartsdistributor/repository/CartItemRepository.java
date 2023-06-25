@@ -15,7 +15,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     /**
      * Retrieves a list of CartItemDto objects.
-     *
+     * <p>
      * This method executes a custom JPQL query to fetch a list of CartItemDto objects
      * containing specific attributes from the CartItem entity along with associated entities,
      * such as Cart and Part, represented by their respective DTO classes.

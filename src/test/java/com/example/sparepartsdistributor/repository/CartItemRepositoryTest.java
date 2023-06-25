@@ -28,7 +28,7 @@ class CartItemRepositoryTest {
     private static PostgreSQLContainer<?> container;
 
     @Autowired
-    private CartItemRepository cartItemRepository;
+    private CartItemRepository underTest;
     @Autowired
     private CartRepository cartRepository;
 
@@ -43,23 +43,25 @@ class CartItemRepositoryTest {
 
     @Test
     public void testFindAllDtos() {
-        // Create test data
+        // given
         CartItem cartItem = new CartItem();
         cartItem.setCart(cartRepository.findById(1L).orElseThrow());
         cartItem.setPart(partRepository.findById(1L).orElseThrow());
-        // Set the necessary attributes for the cart item
 
-        // Save the cart item
-        cartItemRepository.save(cartItem);
+        underTest.save(cartItem);
 
-        // Perform the query
-        List<CartItemDto> cartItemDtos = cartItemRepository.findAllDtos();
+        CartItem carItem2 = new CartItem();
+        carItem2.setCart(cartRepository.findById(1L).orElseThrow());
+        carItem2.setPart(partRepository.findById(2L).orElseThrow());
 
-        // Assert the results
+        underTest.save(carItem2);
+
+        // when
+        List<CartItemDto> cartItemDtos = underTest.findAllDtos();
+
+        // then
         assertThat(cartItemDtos).isNotNull();
-        assertThat(cartItemDtos).hasSize(1);
-
-        // Add more assertions as needed based on the expected behavior of the query
+        assertThat(cartItemDtos).hasSize(2);
     }
 
     @Test

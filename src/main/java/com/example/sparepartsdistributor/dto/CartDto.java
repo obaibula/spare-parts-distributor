@@ -5,6 +5,8 @@ import com.example.sparepartsdistributor.entity.Cart;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+// todo: creating a static mapper was a bad consideration for testing.
+//  Refactor all dtos into separate service Functions
 public record CartDto(Long id,
                       LocalDateTime createdAt,
                       BigDecimal totalPrice) {

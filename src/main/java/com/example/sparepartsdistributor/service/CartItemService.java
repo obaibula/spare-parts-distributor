@@ -6,7 +6,7 @@ import com.example.sparepartsdistributor.entity.CartItem;
 import java.util.List;
 
 public interface CartItemService {
-    CartItem save(CartItem cartItem);
+    CartItemDto save(CartItem cartItem);
 
     List<CartItemDto> findAll();
 }

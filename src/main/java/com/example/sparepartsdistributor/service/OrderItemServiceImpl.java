@@ -24,6 +24,7 @@ public class OrderItemServiceImpl implements OrderItemService {
      */
     @Override
     @Transactional
+    // todo: must return dto
     public OrderItem save(OrderItem orderItem) {
         return orderItemRepository.save(orderItem);
     }

@@ -1,6 +1,7 @@
 package com.example.sparepartsdistributor.service;
 
 import com.example.sparepartsdistributor.dto.CartItemDto;
+import com.example.sparepartsdistributor.dto.CartItemToDtoMapper;
 import com.example.sparepartsdistributor.entity.CartItem;
 import com.example.sparepartsdistributor.repository.CartItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,18 +9,33 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
+    private final CartItemToDtoMapper cartItemToDtoMapper;
     @Override
     @Transactional
-    public CartItem save(CartItem cartItem) {
-        // todo: cart must not contain not unique parts. If part is present in the cart, the quantity must be updated
-        /*var partId = cartItem.getPart().getId();
-        var cartId = cartItem.getCart().getId();*/
-        return cartItemRepository.save(cartItem);
+    public CartItemDto save(CartItem cartItem) {
+        var partId = cartItem.getPart().getId();
+        var cartId = cartItem.getCart().getId();
+
+        Optional<CartItem> byUserIdAndPartId =
+                cartItemRepository.findByUserIdAndPartId(cartId, partId);
+        if(byUserIdAndPartId.isPresent()){
+            var persistedCartItem = byUserIdAndPartId.get();
+            var currentQuantity = persistedCartItem.getQuantity();
+            var quantityFromRequestedItem = cartItem.getQuantity();
+
+            persistedCartItem.setQuantity(currentQuantity + quantityFromRequestedItem);
+            return cartItemToDtoMapper.apply(persistedCartItem);
+
+        }else {
+            CartItem saved = cartItemRepository.save(cartItem);
+            return cartItemToDtoMapper.apply(saved);
+        }
     }
 
     @Override

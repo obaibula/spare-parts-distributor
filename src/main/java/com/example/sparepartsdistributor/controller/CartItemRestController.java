@@ -24,7 +24,7 @@ public class CartItemRestController {
     private final CartItemService cartItemService;
 
     @PostMapping
-    public ResponseEntity<CartItem> addCartItem(@RequestBody CartItem cartItem) {
+    public ResponseEntity<CartItemDto> addCartItem(@RequestBody CartItem cartItem) {
         var saved = cartItemService.save(cartItem);
 
         return ResponseEntity.created(getLocation(cartItem))

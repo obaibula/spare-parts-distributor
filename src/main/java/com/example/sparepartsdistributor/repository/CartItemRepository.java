@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository for managing сart items.
@@ -50,4 +51,12 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
             INNER JOIN ci.cart c
             """)
     List<CartItemDto> findAllDtos();
+
+    @Query("""
+            FROM CartItem ci
+            INNER JOIN ci.part p
+            INNER JOIN ci.cart c
+            WHERE c.id = :cartId AND p.id = :partId
+            """)
+    Optional<CartItem> findByUserIdAndPartId(Long cartId, Long partId);
 }

@@ -58,5 +58,5 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
             INNER JOIN ci.cart c
             WHERE c.id = :cartId AND p.id = :partId
             """)
-    Optional<CartItem> findByUserIdAndPartId(Long cartId, Long partId);
+    Optional<CartItem> findByCartIdAndPartId(Long cartId, Long partId);
 }

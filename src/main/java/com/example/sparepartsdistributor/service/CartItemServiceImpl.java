@@ -23,14 +23,15 @@ public class CartItemServiceImpl implements CartItemService {
         var cartId = cartItem.getCart().getId();
 
         Optional<CartItem> byUserIdAndPartId =
-                cartItemRepository.findByUserIdAndPartId(cartId, partId);
+                cartItemRepository.findByCartIdAndPartId(cartId, partId);
         if(byUserIdAndPartId.isPresent()){
             var persistedCartItem = byUserIdAndPartId.get();
             var currentQuantity = persistedCartItem.getQuantity();
             var quantityFromRequestedItem = cartItem.getQuantity();
 
             persistedCartItem.setQuantity(currentQuantity + quantityFromRequestedItem);
-            return cartItemToDtoMapper.apply(persistedCartItem);
+            CartItemDto resultDto = cartItemToDtoMapper.apply(persistedCartItem);
+            return resultDto;
 
         }else {
             CartItem saved = cartItemRepository.save(cartItem);

@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,20 +17,6 @@ import java.util.Map;
 @RestControllerAdvice
 @Log4j2
 public class GlobalExceptionHandler {
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<UserErrorResponse> handleUserNotFoundException(UserNotFoundException e) {
-        String message = e.getMessage();
-        var response = new UserErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                message,
-                System.currentTimeMillis());
-
-        log.error(message);
-        e.printStackTrace();
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, List<String>>>
     handleValidationErrors(MethodArgumentNotValidException e) {
@@ -40,6 +27,27 @@ public class GlobalExceptionHandler {
                 .toList();
 
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Map<String, List<String>>>
+    handleEntityNotFoundException(EntityNotFoundException e){
+        List<String> errors = Collections.singletonList(e.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<Map<String, List<String>>>
+    handleGeneralExceptions(Exception e){
+        List<String> errors = Collections.singletonList(e.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public final ResponseEntity<Map<String, List<String>>>
+    handleRuntimeExceptions(RuntimeException e){
+        List<String> errors = Collections.singletonList(e.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private Map<String, List<String>> getErrorsMap(List<String> errors) {

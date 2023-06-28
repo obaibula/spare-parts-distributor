@@ -1,9 +1,11 @@
 package com.example.sparepartsdistributor.controller;
 
 import com.example.sparepartsdistributor.dto.UserDto;
+import com.example.sparepartsdistributor.dto.UserRequestDTO;
 import com.example.sparepartsdistributor.entity.User;
 import com.example.sparepartsdistributor.service.CartService;
 import com.example.sparepartsdistributor.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +35,7 @@ public class UserRestController {
      * @return the ResponseEntity containing the created userRequest and location URI
      */
     @PostMapping
-    private ResponseEntity<UserDto> createUser(@RequestBody UserDto userRequest){
+    private ResponseEntity<UserDto> createUser(@RequestBody @Valid UserRequestDTO userRequest){
         var savedUser = userService.save(userRequest);
         return created(getLocation(savedUser))
                 .body(savedUser);

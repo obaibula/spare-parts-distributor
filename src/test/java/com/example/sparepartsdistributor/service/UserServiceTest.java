@@ -1,6 +1,7 @@
 package com.example.sparepartsdistributor.service;
 
 import com.example.sparepartsdistributor.dto.UserDto;
+import com.example.sparepartsdistributor.dto.UserRequestDtoToUserMapper;
 import com.example.sparepartsdistributor.entity.Cart;
 import com.example.sparepartsdistributor.entity.User;
 import com.example.sparepartsdistributor.repository.UserRepository;
@@ -25,11 +26,13 @@ class UserServiceTest {
     private UserRepository userRepository;
     @Mock
     private CartService cartService;
-    private UserService underTest;
 
+    private UserRequestDtoToUserMapper userRequestDtoToUserMapper;
+    private UserService underTest;
+    // todo: fix test considering mapper
     @BeforeEach
     void setUp() {
-        underTest = new UserServiceImpl(userRepository, cartService);
+        underTest = new UserServiceImpl(userRepository, cartService, userRequestDtoToUserMapper);
     }
 
     @Test

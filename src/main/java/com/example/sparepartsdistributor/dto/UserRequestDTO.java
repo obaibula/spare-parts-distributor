@@ -1,7 +1,6 @@
 package com.example.sparepartsdistributor.dto;
 
 import com.example.sparepartsdistributor.entity.ShipmentStatus;
-import com.example.sparepartsdistributor.validation.EnumPattern;
 import com.example.sparepartsdistributor.validation.UniqueEmail;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
@@ -11,6 +10,7 @@ import java.math.BigDecimal;
 @Builder
 public record UserRequestDTO(@Email(message = "Invalid email")
                              @UniqueEmail
+                             @NotNull
                              String email,
                              @Pattern(regexp = "^\\+38 \\d{3} \\d{3}-\\d{2}-\\d{2}$",
                                      message = "The phone number should be in the next format: +38 050 123-45-67")

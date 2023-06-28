@@ -15,5 +15,5 @@ CREATE TABLE users (
     CHECK(discount >= 0 AND discount <= 99),
     CHECK(payment_deferment >= 0),
     CHECK(credit_limit >= 0),
-    CHECK(balance >= 0)
+    CHECK(balance >= credit_limit * -1)
 )

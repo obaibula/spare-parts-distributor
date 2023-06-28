@@ -25,7 +25,6 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(FieldError::getDefaultMessage)
                 .toList();
-
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
@@ -39,6 +38,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Map<String, List<String>>>
     handleGeneralExceptions(Exception e){
+        e.printStackTrace();
         List<String> errors = Collections.singletonList(e.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -46,6 +46,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public final ResponseEntity<Map<String, List<String>>>
     handleRuntimeExceptions(RuntimeException e){
+        e.printStackTrace();
         List<String> errors = Collections.singletonList(e.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -17,5 +17,12 @@ VALUES
 ('Z3424123', 'Example Part', 'Example Brand', 'Example Category', 9.99, 10, 10, 3, 'example-image.jpg'),
 ('Y543545', 'Example Part', 'Example Brand', 'Example Category', 9.99, 10, 10, 3, 'example-image.jpg');
 
+INSERT INTO cart_items (cart_id, part_id)
+VALUES
+(1, 3),
+(1, 4),
+(1, 5),
+(2, 2);
+
 
 

@@ -15,9 +15,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.List;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestDatabaseContainerConfig.class)
@@ -42,7 +40,7 @@ class CartItemRepositoryTest {
     }
 
     @Test
-    public void testFindAllDtos() {
+    public void shouldFindAllDtos() {
         // given
         CartItem cartItem = new CartItem();
         cartItem.setCart(cartRepository.findById(1L).orElseThrow());
@@ -61,10 +59,20 @@ class CartItemRepositoryTest {
 
         // then
         assertThat(cartItemDtos).isNotNull();
-        assertThat(cartItemDtos).hasSize(2);
+        assertThat(cartItemDtos).hasSize(6);
     }
 
     @Test
-    public void test2() {
+    public void shouldFindCartItemByCartIdAndPartId() {
+        // given
+        var cartId = 2L;
+        var partId = 2L;
+
+        // when
+        var notEmptyCartItemOptional = underTest.findByCartIdAndPartId(cartId, partId);
+        var emptyCartItemOptional = underTest.findByCartIdAndPartId(999L, 999L);
+        // then
+        assertThat(notEmptyCartItemOptional).isNotEmpty();
+        assertThat(emptyCartItemOptional).isEmpty();
     }
 }

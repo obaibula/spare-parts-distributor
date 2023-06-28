@@ -24,6 +24,8 @@ public class CartItemServiceImpl implements CartItemService {
 
         Optional<CartItem> byUserIdAndPartId =
                 cartItemRepository.findByCartIdAndPartId(cartId, partId);
+
+        // if cartItem exists, update quantity. Else save this cartItem:
         if(byUserIdAndPartId.isPresent()){
             var persistedCartItem = byUserIdAndPartId.get();
             var currentQuantity = persistedCartItem.getQuantity();

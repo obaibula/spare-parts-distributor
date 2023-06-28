@@ -1,6 +1,10 @@
 package com.example.sparepartsdistributor.entity;
 
+import com.example.sparepartsdistributor.validation.UniqueEmail;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.math.BigDecimal;

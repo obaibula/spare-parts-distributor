@@ -1,6 +1,7 @@
 package com.example.sparepartsdistributor.service;
 
 import com.example.sparepartsdistributor.dto.UserDto;
+import com.example.sparepartsdistributor.dto.UserRequestDTO;
 import com.example.sparepartsdistributor.entity.User;
 import com.example.sparepartsdistributor.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class UserServiceImpl implements UserService{
     private final CartService cartService;
     @Override
     @Transactional
-    public UserDto save(User user) {
-        var savedUser = userRepository.save(user);
+    public UserDto save(UserRequestDTO userRequest) {
+        var savedUser = userRepository.save(userRequest);
         var createdCart = cartService.createCart(savedUser);
         savedUser.setCart(createdCart);
 

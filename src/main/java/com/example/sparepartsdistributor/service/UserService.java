@@ -1,6 +1,7 @@
 package com.example.sparepartsdistributor.service;
 
 import com.example.sparepartsdistributor.dto.UserDto;
+import com.example.sparepartsdistributor.dto.UserRequestDTO;
 import com.example.sparepartsdistributor.entity.User;
 
 /**
@@ -11,5 +12,5 @@ import com.example.sparepartsdistributor.entity.User;
  * @see <a href="https://docs.spring.io/spring-framework/docs/3.0.0.M3/reference/html/ch08s06.html">Spring Documentation - 8.6 Proxying mechanisms</a>
  */
 public interface UserService {
-    UserDto save(User user);
+    UserDto save(UserRequestDTO userRequest);
 }

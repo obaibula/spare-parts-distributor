@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Provided CRUD operations and query methods for the {@link User} entity.
  */
 public interface UserRepository extends JpaRepository<User, Long> {
+    boolean existsByEmail(String email);
 }

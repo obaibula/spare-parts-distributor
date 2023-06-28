@@ -26,15 +26,15 @@ public class UserRestController {
     private final UserService userService;
 
     /**
-     * Creates a new user based on the provided request body.
-     * The created user is returned in the response with the appropriate HTTP status and location header.
+     * Creates a new userRequest based on the provided request body.
+     * The created userRequest is returned in the response with the appropriate HTTP status and location header.
      *
-     * @param user the user to be created, as specified in the request body
-     * @return the ResponseEntity containing the created user and location URI
+     * @param userRequest the userRequest to be created, as specified in the request body
+     * @return the ResponseEntity containing the created userRequest and location URI
      */
     @PostMapping
-    private ResponseEntity<UserDto> createUser(@RequestBody User user){
-        var savedUser = userService.save(user);
+    private ResponseEntity<UserDto> createUser(@RequestBody UserDto userRequest){
+        var savedUser = userService.save(userRequest);
         return created(getLocation(savedUser))
                 .body(savedUser);
     }

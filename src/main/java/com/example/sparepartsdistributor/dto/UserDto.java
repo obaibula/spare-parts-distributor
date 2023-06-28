@@ -2,6 +2,7 @@ package com.example.sparepartsdistributor.dto;
 
 import com.example.sparepartsdistributor.entity.ShipmentStatus;
 import com.example.sparepartsdistributor.entity.User;
+import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

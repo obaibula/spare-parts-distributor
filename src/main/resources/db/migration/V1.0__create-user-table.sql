@@ -2,7 +2,7 @@ CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
     created_at DATE DEFAULT CURRENT_DATE,
     email VARCHAR(70) NOT NULL UNIQUE,
-    phone VARCHAR(25) UNIQUE,
+    phone VARCHAR(17),
     first_name VARCHAR(30),
     last_name VARCHAR(30),
     password VARCHAR(50) NOT NULL,

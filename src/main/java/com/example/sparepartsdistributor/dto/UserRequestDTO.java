@@ -14,7 +14,6 @@ public record UserRequestDTO(@Email(message = "Invalid email")
                              String email,
                              @Pattern(regexp = "^\\+38 \\d{3} \\d{3}-\\d{2}-\\d{2}$",
                                      message = "The phone number should be in the next format: +38 050 123-45-67")
-                             //todo: @UniquePhone
                              String phone,
                              @Size(min = 1, max = 30,
                                      message = "Invalid first name: Must be of 1 - 30 characters")

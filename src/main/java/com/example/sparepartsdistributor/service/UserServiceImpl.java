@@ -3,7 +3,6 @@ package com.example.sparepartsdistributor.service;
 import com.example.sparepartsdistributor.dto.UserDto;
 import com.example.sparepartsdistributor.dto.UserRequestDTO;
 import com.example.sparepartsdistributor.dto.UserRequestDtoToUserMapper;
-import com.example.sparepartsdistributor.entity.User;
 import com.example.sparepartsdistributor.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

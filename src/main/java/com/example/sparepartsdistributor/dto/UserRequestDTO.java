@@ -24,10 +24,10 @@ public record UserRequestDTO(@Email(message = "Invalid email")
                              String lastName,
 
                              @NotNull(message = "Invalid password: password is NULL")
-                             @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,32}$",
+                             @Pattern(regexp = "^(?=.*\\d)(?=.*\\p{Lower})(?=.*\\p{Upper})(?=.*\\p{Punct}).*$",
                                      message = "The password should contain: numbers, " +
                                              "lowercase/uppercase letters, " +
-                                             "and special symbols of @#$%^&+=")
+                                             "and special symbols")
                              @Size(min = 8, max = 32, message = "Invalid password: Must be of 8-32 characters")
                              String password,
                              @Min(value = 0,

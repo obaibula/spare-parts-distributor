@@ -1,7 +1,11 @@
 package com.example.sparepartsdistributor.dto;
 
 import com.example.sparepartsdistributor.entity.ShipmentStatus;
+import com.example.sparepartsdistributor.validation.EnumPattern;
 import com.example.sparepartsdistributor.validation.UniqueEmail;
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import com.fasterxml.jackson.databind.EnumNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.EnumNaming;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 
@@ -43,10 +47,7 @@ public record UserRequestDTO(@Email(message = "Invalid email")
                              @Min(value = 0,
                                      message = "Credit limit must not be less than 0")
                              BigDecimal creditLimit,
-
-                             // todo: correct enum validation
-                             /*@EnumPattern(regexp = "^ALLOWED$|^BLOCKED$",
-                                     message = "Invalid Shipment status, must be ALLOWED or BLOCKED",
-                                     enumClass = ShipmentStatus.class)*/
+                             @EnumPattern(regexp = "^ALLOWED$|^BLOCKED$",
+                             message = "Shipment status must be BLOCKED or ALLOWED")
                              ShipmentStatus shipmentStatus) {
 }

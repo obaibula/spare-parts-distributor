@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EnumPatternValidator implements ConstraintValidator<EnumPattern, String> {
+public class EnumPatternStringValidator implements ConstraintValidator<EnumPattern, String> {
     private Set<String> enumNames;
 
     @Override

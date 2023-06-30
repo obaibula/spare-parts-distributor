@@ -2,8 +2,6 @@ package com.example.sparepartsdistributor.controller;
 
 import com.example.sparepartsdistributor.dto.UserDto;
 import com.example.sparepartsdistributor.dto.UserRequestDTO;
-import com.example.sparepartsdistributor.entity.User;
-import com.example.sparepartsdistributor.service.CartService;
 import com.example.sparepartsdistributor.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

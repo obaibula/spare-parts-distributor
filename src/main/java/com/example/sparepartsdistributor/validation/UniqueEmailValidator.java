@@ -3,10 +3,24 @@ package com.example.sparepartsdistributor.validation;
 import com.example.sparepartsdistributor.repository.UserRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
+@NoArgsConstructor
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
-    @Autowired private UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    public UniqueEmailValidator(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+
+    @Override
+    public void initialize(UniqueEmail constraintAnnotation) {
+        ConstraintValidator.super.initialize(constraintAnnotation);
+    }
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraint) {

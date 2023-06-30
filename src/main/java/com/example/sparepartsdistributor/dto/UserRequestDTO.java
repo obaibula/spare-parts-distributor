@@ -3,9 +3,6 @@ package com.example.sparepartsdistributor.dto;
 import com.example.sparepartsdistributor.entity.ShipmentStatus;
 import com.example.sparepartsdistributor.validation.EnumPattern;
 import com.example.sparepartsdistributor.validation.UniqueEmail;
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
-import com.fasterxml.jackson.databind.EnumNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.EnumNaming;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 
@@ -14,7 +11,7 @@ import java.math.BigDecimal;
 @Builder
 public record UserRequestDTO(@Email(message = "Invalid email")
                              @UniqueEmail
-                             @NotNull
+                             @NotNull(message = "Email must not be null")
                              String email,
                              @Pattern(regexp = "^\\+38 \\d{3} \\d{3}-\\d{2}-\\d{2}$",
                                      message = "The phone number should be in the next format: +38 050 123-45-67")
@@ -26,7 +23,7 @@ public record UserRequestDTO(@Email(message = "Invalid email")
                                      message = "Invalid last name: Must be of 1 - 30 characters")
                              String lastName,
 
-                             @NotNull(message = "Invalid password: password is NULL")
+                             @NotNull(message = "Password must not be null")
                              @Pattern(regexp = "^(?=.*\\d)(?=.*\\p{Lower})(?=.*\\p{Upper})(?=.*\\p{Punct}).*$",
                                      message = "The password should contain: numbers, " +
                                              "lowercase/uppercase letters, " +

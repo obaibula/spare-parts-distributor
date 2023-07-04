@@ -1,6 +1,6 @@
 package com.example.sparepartsdistributor.validation;
 
-import com.example.sparepartsdistributor.entity.ShipmentStatus;
+import com.example.sparepartsdistributor.user.ShipmentStatus;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

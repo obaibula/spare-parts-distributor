@@ -1,6 +1,6 @@
 package com.example.sparepartsdistributor.validation;
 
-import com.example.sparepartsdistributor.repository.UserRepository;
+import com.example.sparepartsdistributor.user.UserRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.NoArgsConstructor;
